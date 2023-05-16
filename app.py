@@ -185,33 +185,33 @@ else:
     img = get_base64_of_PIL_img(Image.open(img_file))
 show_image(img)
 
-from streamlit_cropper import st_cropper
-def do_cropping():
-    aspect_choice = st.sidebar.radio(label="Aspect Ratio", options=["1:1", "16:9", "4:3", "2:3", "Free"])
-    aspect_dict = {
-        "1:1": (1, 1),
-        "16:9": (16, 9),
-        "4:3": (4, 3),
-        "2:3": (2, 3),
-        "Free": None
-    }
-    aspect_ratio = aspect_dict[aspect_choice]
-
-    if img_file:
-        img = Image.open(img_file)
-        # Get a cropped image from the frontend
-        cropped_img = st_cropper(img, realtime_update=True, box_color='#FF0000',
-                                    aspect_ratio=aspect_ratio)
-
-        # Manipulate cropped image at will
-        st.write("Preview")
-        _ = cropped_img.thumbnail((150,150))
-        st.image(cropped_img)
-
-        
-with st.container():
-    cropping = st.checkbox("Crop",key=1)
-    if cropping:
-        do_cropping()
+#from streamlit_cropper import st_cropper
+#def do_cropping():
+#    aspect_choice = st.sidebar.radio(label="Aspect Ratio", options=["1:1", "16:9", "4:3", "2:3", "Free"])
+#    aspect_dict = {
+#        "1:1": (1, 1),
+#        "16:9": (16, 9),
+#        "4:3": (4, 3),
+#        "2:3": (2, 3),
+#        "Free": None
+#    }
+#    aspect_ratio = aspect_dict[aspect_choice]
+#
+#    if img_file:
+#        img = Image.open(img_file)
+#        # Get a cropped image from the frontend
+#        cropped_img = st_cropper(img, realtime_update=True, box_color='#FF0000',
+#                                    aspect_ratio=aspect_ratio)
+#
+#        # Manipulate cropped image at will
+#        st.write("Preview")
+#        _ = cropped_img.thumbnail((150,150))
+#        st.image(cropped_img)
+#
+#        
+#with st.container():
+#    cropping = st.checkbox("Crop",key=1)
+#    if cropping:
+#        do_cropping()
   
 #plot_results(result_filenames, distances)
