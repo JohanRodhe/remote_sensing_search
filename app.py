@@ -83,21 +83,20 @@ def show_image(img):
             #container {{
                 box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
                 overflow: hidden;
-                width: 950px;
+                width: 650px;
 
             }}
             img {{
                 transform-origin: center center;
                 object-fit: cover;
                 max-width: 100%;
-                width: 950px;
+                width: 650px;
             }}
             img:hover {{
             }}
             </style>
         """,
         height=825,
-        width=825,
     )
               
 def mark_results_on_img(filenames):
