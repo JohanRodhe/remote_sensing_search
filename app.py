@@ -24,10 +24,6 @@ def get_base64_of_PIL_img(image):
     img_str = base64.b64encode(buffered.getvalue())
     return img_str.decode()
 
-IMAGE_VECTOR_FILE = './vectors/test_im_vectors_rome2.tsv'
-IMAGES_DIR = "./images"
-CAPTIONS_FILE = os.path.join(IMAGES_DIR, "test-captions.json")
-
 @st.cache_resource
 def load_models():
     model = FlaxCLIPModel.from_pretrained("flax-community/clip-rsicd-v2")
@@ -42,11 +38,10 @@ def load_index():
 
 image_name = ""
 image = ""
-IMAGES_DIR_ROME = "../image_patches_rome2"
+IMAGES_DIR_ROME = "./images/image_patches_rome/"
 img_file = 'Earth_from_Space_Rome_Italy.jpg'
 model, processor = load_models()
 filenames, index = load_index()
-#img = get_base64_of_bin_file(img_file)
 
 from streamlit.components.v1 import html
 def show_image(img):
@@ -64,11 +59,11 @@ def show_image(img):
         container.addEventListener("mousedown", toggleZoom);
         function toggleZoom(e) {{
             if (zoomActive) {{
-                offZoom(e);
+                offZoom(e, false);
                 container.removeEventListener("mousemove", onZoom);
             }}
             else {{
-                onZoom(e);
+                onZoom(e, true);
                 container.addEventListener("mousemove", onZoom);
             }}
             zoomActive = !zoomActive;
@@ -77,7 +72,7 @@ def show_image(img):
             const x = e.clientX - e.target.offsetLeft;
             const y = e.clientY - e.target.offsetTop;
             img.style.transformOrigin = `${{x}}px ${{y}}px`;
-            img.style.transform = "scale(8.5)";
+            img.style.transform = "scale(14.5)";
         }}   
         function offZoom(e) {{
             img.style.transformOrigin = `center center`;
@@ -116,7 +111,7 @@ def mark_results_on_img(filenames):
         x1 = x0 + 224
         y1 = y0 + 224
         img1 = ImageDraw.Draw(marked_img)
-        img1 = img1.rectangle([(x0, y0), (x1, y1)], outline ="red", width=7)
+        img1 = img1.rectangle([(x0, y0), (x1, y1)], outline ="red", width=5)
 
     return marked_img
 
@@ -165,18 +160,25 @@ with st.sidebar:
         b4= st.button("Search", key=6)
 
 if text:
+    st.text("Prompt: " + text)
     result_filenames, distances = find_areas_from_text(text)
-    img = get_base64_of_PIL_img(mark_results_on_img(result_filenames[:5]))
+    img = get_base64_of_PIL_img(mark_results_on_img(result_filenames[:2]))
 elif b1:
     result_filenames, distances = find_areas_from_image(Image.open(examples[0]))
     img = get_base64_of_PIL_img(mark_results_on_img(result_filenames[:5]))
 elif b2:
+    st.text("Prompt: ")
+    st.image(Image.open(examples[1]), width=150)
     result_filenames, distances = find_areas_from_image(Image.open(examples[1]))
     img = get_base64_of_PIL_img(mark_results_on_img(result_filenames[:5]))
 elif b3:
+    st.text("Prompt: ")
+    st.image(Image.open(examples[2]), width=150)
     result_filenames, distances = find_areas_from_image(Image.open(examples[2]))
     img = get_base64_of_PIL_img(mark_results_on_img(result_filenames[:5]))
 elif b4:
+    st.text("Prompt: ")
+    st.image(Image.open(examples[3]), width=150)
     result_filenames, distances = find_areas_from_image(Image.open(examples[3]))
     img = get_base64_of_PIL_img(mark_results_on_img(result_filenames[:5]))
 else:
