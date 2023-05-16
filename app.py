@@ -72,7 +72,7 @@ def show_image(img):
             const x = e.clientX - e.target.offsetLeft;
             const y = e.clientY - e.target.offsetTop;
             img.style.transformOrigin = `${{x}}px ${{y}}px`;
-            img.style.transform = "scale(14.5)";
+            img.style.transform = "scale(18.5)";
         }}   
         function offZoom(e) {{
             img.style.transformOrigin = `center center`;
@@ -83,20 +83,21 @@ def show_image(img):
             #container {{
                 box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
                 overflow: hidden;
-                width: 650px;
+                width: 950px;
 
             }}
             img {{
                 transform-origin: center center;
                 object-fit: cover;
                 max-width: 100%;
-                width: 650px;
+                width: 950px;
             }}
             img:hover {{
             }}
             </style>
         """,
-        height=725,
+        height=825,
+        width=825,
     )
               
 def mark_results_on_img(filenames):
@@ -111,7 +112,7 @@ def mark_results_on_img(filenames):
         x1 = x0 + 224
         y1 = y0 + 224
         img1 = ImageDraw.Draw(marked_img)
-        img1 = img1.rectangle([(x0, y0), (x1, y1)], outline ="red", width=5)
+        img1 = img1.rectangle([(x0, y0), (x1, y1)], outline ="red", width=7)
 
     return marked_img
 
@@ -162,7 +163,7 @@ with st.sidebar:
 if text:
     st.text("Prompt: " + text)
     result_filenames, distances = find_areas_from_text(text)
-    img = get_base64_of_PIL_img(mark_results_on_img(result_filenames[:2]))
+    img = get_base64_of_PIL_img(mark_results_on_img(result_filenames[:5]))
 elif b1:
     result_filenames, distances = find_areas_from_image(Image.open(examples[0]))
     img = get_base64_of_PIL_img(mark_results_on_img(result_filenames[:5]))
